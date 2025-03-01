@@ -31,8 +31,9 @@ import { PdfService } from './services/pdf.service';
 export class AppComponent implements OnInit {
   referenceForm: FormGroup;
   isLoading = false;
-  testId: string | null = null;
-  additionalId: string | null = null;
+  consid: string | null = null;
+  contid: string | null = null;
+  name: string = '';
 
   relationshipOptions: string[] = [
     'Employment Reference',
@@ -100,23 +101,26 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (params['id']) {
-        this.testId = params['id'];
-        console.log("📌 Extracted testId from URL:", this.testId);
+      if (params['consid']) {
+        this.consid = params['consid'];
+        console.log("📌 Extracted testId from URL:", this.consid);
       } else {
         console.warn("⚠️ No testId found in the URL.");
-        this.testId = null;
+        this.consid = null;
       }
 
-      if (params['additionalId']) {
-        this.additionalId = params['additionalId'];
-        console.log("📌 Extracted additionalId from URL:", this.additionalId);
+      if (params['contid']) {
+        this.contid = params['contid'];
+        console.log("📌 Extracted additionalId from URL:", this.contid);
       } else {
         console.warn("⚠️ No additionalId found in the URL.");
-        this.additionalId = null;
+        this.contid = null;
       }
 
-      if (this.testId) {
+      if (this.consid) {
+        this.fetchAdditionalData(this.consid.toString())
+      }
+      if (this.contid) {
         this.fetchData();
       }
     });
@@ -144,15 +148,15 @@ showSuccessMessage() {
 
 
   fetchData() {
-    if (!this.testId) {
+    if (!this.contid) {
       console.error("❌ Cannot fetch data. testId is missing!");
       return;
     }
 
     this.isLoading = true;
-    console.log(`🔄 Fetching data for testId: ${this.testId}`);
+    console.log(`🔄 Fetching data for testId: ${this.contid}`);
 
-    this.apiService.getRecord(this.testId).subscribe({
+    this.apiService.getRecord(this.contid).subscribe({
       next: (response) => {
         if (!response.IsError) {
           const record = response.Record;
@@ -161,6 +165,7 @@ showSuccessMessage() {
             phone: record.MobilePhone,
             email: record.EMail1
           });
+         
           console.log("✅ Prefilled data from API:", record);
         } else {
           console.error("❌ API Error:", response.ErrorMsg);
@@ -173,6 +178,32 @@ showSuccessMessage() {
       }
     });
   }
+
+  // Second API Call - Fetch extra details
+fetchAdditionalData(testId: string) {
+  console.log(`🔄 Fetching additional data for testId: ${testId}`);
+
+  this.apiService.getRecord1(testId).subscribe({
+    next: (response) => {
+      if (!response.IsError) {
+        this.name = response.Record.DisplayName;
+        console.log("✅ Name Prefilled from second API:", this.name);
+      } else {
+        console.error("❌ API Error in second API:", response.ErrorMsg);
+      }
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error("❌ Second API request failed:", err);
+      this.isLoading = false;
+    }
+  });
+}
+
+
+
+
+
 
   debugFormValidation() {
     console.log("❌ Form validation errors:");
@@ -217,14 +248,14 @@ showSuccessMessage() {
   
       const base64String = btoa(String.fromCharCode(...new Uint8Array(pdfBytes)));
   
-      if (!this.testId) {
+      if (!this.consid) {
         throw new Error("Missing testId! PDF upload skipped.");
       }
   
       // Upload PDF using API service
       this.apiService.uploadPdf(
-        this.testId,
-        this.additionalId ?? '',
+        this.consid,
+        this.contid ?? '',
         `${this.referenceForm.value.referenceName?.trim() || 'reference'}.pdf`,
         base64String
       ).subscribe({

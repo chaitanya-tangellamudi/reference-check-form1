@@ -20,13 +20,23 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   // Fetch record data
-  getRecord(testId: string): Observable<any> {
+  getRecord(contid: string): Observable<any> {
+    const payload = {
+      CompanyID: this.companyID,
+      Username: this.username,
+      Password: this.password,
+      EntityID: 'Contacts',
+      ItemIntID: contid
+    };
+    return this.http.post<any>(`${this.baseUrl}/viewrecord`, payload);
+  }
+  getRecord1(consid: string): Observable<any> {
     const payload = {
       CompanyID: this.companyID,
       Username: this.username,
       Password: this.password,
       EntityID: 'Consultants',
-      ItemIntID: testId
+      ItemIntID: consid
     };
     return this.http.post<any>(`${this.baseUrl}/viewrecord`, payload);
   }

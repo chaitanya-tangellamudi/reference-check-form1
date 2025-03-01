@@ -5,8 +5,9 @@
 <div class="whole-page">
     <div class="page-header">
         <h1>Reference Check</h1>
-        
+        <p>Reference for {{ name }}</p> 
     </div>
+    
 
     <div class="success-message" *ngIf="isSuccess">
         <div class="success-icon">✔</div>
@@ -62,7 +63,7 @@
         <div class="form-row">
             <label for="nannyApplicantName"   class="required" >Nanny Applicant Name</label>
             <input id="nannyApplicantName" type="text" formControlName="nannyApplicantName" placeholder="Please provide the name of the Nanny Applicant" />
-            <hr class="full-width-line">
+           
         </div>
             
 

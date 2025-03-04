@@ -50,7 +50,7 @@ export class ApiService {
       ItemIntIDs: [testId, additionalId],
       DocName: fileName,
       DocContent: base64String,
-      SubType: "Chaitanya"
+      SubType: ""
     };
     return this.http.post<any>(`${this.uploadUrl}`, payload).pipe(
       retry(2), // 🔁 Retries the request 3 times

@@ -18,6 +18,14 @@
     <div class="message-icon error-icon">✖</div>
     <div class="message-text">Form Submission Failed! Please try again.</div>
   </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading, please wait...</p>
+  </div>
+
+  
+  
     
     
       
@@ -37,6 +45,7 @@
         <div class="form-row">
             <label for="referenceName" class="required">Reference Name</label>
             <input id="referenceName" type="text" formControlName="referenceName" placeholder="Please provide your first and last name" />
+            
         </div>
 
         <div class="form-row">
@@ -338,11 +347,20 @@
             <textarea id="additionalComments" formControlName="additionalComments" rows="3" placeholder="Your comments here..."></textarea>
         </div>
         <div class="form-row submit-row">
-            <button type="submit" [disabled]="!referenceForm.valid" class="submit-btn">
-                Submit
+            <button 
+                type="submit" 
+
+                class="submit-btn"
+            >
+                <span *ngIf="isLoading" class="spinner"></span>
+                <span *ngIf="!isLoading">Submit</span>
             </button>
         </div>
-    
+
+        <div *ngIf="isFormInvalid" class="error-message">
+            ⚠️ Please fill in all required fields before submitting!
+        </div>
+        
 
         
 

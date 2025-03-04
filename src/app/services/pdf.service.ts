@@ -19,7 +19,7 @@ export class PdfService {
 
     try {
       const canvas = await html2canvas(formElement, {
-        scale: 0.8,
+        scale: 0.9,
         allowTaint: true,
         backgroundColor: '#FFFFFF'
       });

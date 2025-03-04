@@ -410,3 +410,75 @@ form h3 {
   left: 4px;
   color: #fff;
 }
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed; /* Ensures it covers the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  background-color: rgba(255, 255, 255, 0.9); /* Light transparent overlay */
+  z-index: 9999; /* Ensures it's above everything */
+}
+
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #ccc;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+
+/* Rotating Effect */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
+/* 🔴 Red Border for Invalid Fields */
+input.ng-invalid.ng-touched, 
+input.ng-invalid.ng-dirty, 
+input.ng-invalid.ng-submitted,
+textarea.ng-invalid.ng-touched, 
+textarea.ng-invalid.ng-dirty, 
+textarea.ng-invalid.ng-submitted,
+select.ng-invalid.ng-touched, 
+select.ng-invalid.ng-dirty, 
+select.ng-invalid.ng-submitted {
+  border: 2px solid #ff4d4d !important; /* Bright Red Border */
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.8); /* Glowing Effect */
+  animation: glowAnimation 1s ease-in-out infinite alternate; /* Glowing Animation */
+}
+
+/* 🔥 Glowing Animation */
+@keyframes glowAnimation {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(255, 77, 77, 1);
+  }
+}
+
+/* 🛑 Hide Warning by Default */
+.error-text {
+  color: #ff4d4d; /* Red Text */
+  font-size: 0.9rem;
+  margin-top: 5px;
+  display: none;
+}
+
+/* 🚨 Show Warning on Invalid Input */
+input.ng-invalid.ng-touched + .error-text,
+textarea.ng-invalid.ng-touched + .error-text,
+select.ng-invalid.ng-touched + .error-text {
+  display: block;
+}

@@ -100,6 +100,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.route.queryParams.subscribe(params => {
       if (params['consid']) {
         this.consid = params['consid'];
@@ -138,6 +139,18 @@ export class AppComponent implements OnInit {
     }, 3000);
   }
 
+  isFormInvalid = false;
+  validateFormBeforeSubmit() {
+    if (!this.referenceForm.valid) {
+      this.isFormInvalid = true;
+      setTimeout(() => {
+        this.isFormInvalid = false;
+      }, 5000); // Hide warning after 5 seconds
+    } else {
+      this.isFormInvalid = false;
+    }
+  }
+
 showSuccessMessage() {
   this.isSuccess = true;
 
@@ -145,6 +158,8 @@ showSuccessMessage() {
     this.isSuccess = false;
   }, 3000); // Hide message after 3 seconds
 }
+
+
 
 
   fetchData() {
@@ -214,13 +229,20 @@ fetchAdditionalData(testId: string) {
       }
     });
   }
+  
+  isFieldInvalid(fieldName: string): boolean {
+    const control = this.referenceForm.get(fieldName);
+    return !!(control && control.invalid && (control.touched || control.dirty || this.isFormInvalid));
+  }
+  
 
   async onSubmit() {
     console.log("🚀 Form submission triggered");
   
     if (!this.referenceForm.valid) {
       console.log("❌ Form is invalid");
-      this.debugFormValidation();
+      this.isFormInvalid = true;
+      this.referenceForm.markAllAsTouched()
       return;
     }
   
@@ -237,6 +259,8 @@ fetchAdditionalData(testId: string) {
     // Hide submit button
     const submitButton = document.querySelector('.submit-btn') as HTMLElement;
     if (submitButton) submitButton.style.display = 'none';
+
+    this.validateFormBeforeSubmit(); 
   
     try {
       // Generate PDF using PdfService
@@ -284,6 +308,7 @@ fetchAdditionalData(testId: string) {
       if (submitButton) submitButton.style.display = 'block';
     }
   }
+  
   
 
  

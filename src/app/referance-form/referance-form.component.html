@@ -1,0 +1,370 @@
+<app-taskbar></app-taskbar>
+
+<!doctype html>
+<html lang="en">
+<div class="whole-page">
+    <div class="page-header">
+        <h1>Reference Check</h1>
+        <p>Reference for {{ name }}</p> 
+    </div>
+    
+
+    <div class="success-message" *ngIf="isSuccess">
+        <div class="success-icon">✔</div>
+        <div class="success-text">Form Submitted Successfully!</div>
+      </div>
+      <!-- Error Message -->
+<div class="message error-message" *ngIf="isError">
+    <div class="message-icon error-icon">✖</div>
+    <div class="message-text">Form Submission Failed! Please try again.</div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading, please wait...</p>
+  </div>
+
+  
+  
+    
+    
+      
+      
+
+   
+<div id="formContainer">
+    <form  [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+        <div class="form-intro">
+            <h2>Reference Form</h2>
+            <p>New Applicant Professional / Personal Reference</p>
+            <p>
+                Please Complete and Submit on behalf of or Above &amp; Beyond Nanny Applicant
+            </p>
+        </div>
+
+        <div class="form-row">
+            <label for="referenceName" class="required">Reference Name</label>
+            <input id="referenceName" type="text" formControlName="referenceName" placeholder="Please provide your first and last name" />
+            
+        </div>
+
+        <div class="form-row">
+            <label for="phone" class="required">Phone</label>
+            <input id="phone" type="text" formControlName="phone" placeholder="Please provide the best phone number to reach you" />
+        </div>
+
+
+        <div class="form-row">
+            <label for="email" class="required">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="Please provide your email address" />
+        </div>
+
+        <div class="form-row">
+            <label for="emailUpdates">Check here to receive email updates</label>
+
+            <div class="checkbox-wrapper-34">
+                <input class="tgl tgl-ios" id="emailUpdates" type="checkbox" formControlName="emailUpdates" />
+                <label class="tgl-btn" for="emailUpdates"></label>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="form-row">
+            <label for="nannyApplicantName"   class="required" >Nanny Applicant Name</label>
+            <input id="nannyApplicantName" type="text" formControlName="nannyApplicantName" placeholder="Please provide the name of the Nanny Applicant" />
+           
+        </div>
+            
+
+
+
+
+
+        <div class="form-row">
+            <label class="required">Relationship to Applicant</label>
+            <div class="cportal-jobgrid">
+                <label class="cportal-joblabel">
+                    <input type="checkbox" (change)="updateRelationship($event)" value="Employment Reference">
+                    <span class="control-indicator">Employment Reference</span>
+                </label>
+                <label class="cportal-joblabel">
+                    <input type="checkbox" (change)="updateRelationship($event)" value="Personal/Character Reference">
+                    <span class="control-indicator">Personal/Character Reference</span>
+                </label>
+                <label class="cportal-joblabel">
+                    <input type="checkbox" (change)="updateRelationship($event)" value="Former Nanny Reference">
+                    <span class="control-indicator">Former Nanny Reference</span>
+                </label>
+                <label class="cportal-joblabel">
+                    <input type="checkbox" (change)="updateRelationship($event)" value="Babysitting Reference">
+                    <span class="control-indicator">Babysitting Reference</span>
+                </label>
+                <label class="cportal-joblabel">
+                    <input type="checkbox" (change)="updateRelationship($event)" value="Full-Time Employment">
+                    <span class="control-indicator">Full-Time Employment</span>
+                </label>
+                <label class="cportal-joblabel">
+                    <input type="checkbox" (change)="updateRelationship($event)" value="Part-Time Employment">
+                    <span class="control-indicator">Part-Time Employment</span>
+                </label>
+            </div>
+        </div>
+        
+
+
+
+
+
+
+        <div class="form-row">
+            <label for="knownDuration">How long have you known this candidate?</label>
+            <input id="knownDuration" type="text" formControlName="knownDuration" placeholder="e.g., 2 years, 6 months, etc." />
+        </div>
+
+
+        <h3>Please rate the applicant on Timeliness:</h3>
+        <div class="form-row">
+            <label class="required" for="ratingTimeliness">Timeliness</label>
+            <select id="ratingTimeliness" formControlName="ratingTimeliness">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+
+
+        <div class="form-row">
+            <label class="required" for="ratingAttitude">Attitude</label>
+            <select id="ratingAttitude" formControlName="ratingAttitude">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+
+
+        </div>
+
+
+        <div class="form-row">
+            <label class="required" for="ratingCommonSense">Common Sense</label>
+            <select id="ratingCommonSense" formControlName="ratingCommonSense">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingCreativity">Creativity</label>
+            <select id="ratingCreativity" formControlName="ratingCreativity">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingCommunication">Communication</label>
+            <select id="ratingCommunication" formControlName="ratingCommunication">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingCopingwithStress">Coping with Stress</label>
+            <select id="ratingCopingwithStress" formControlName="ratingCopingwithStress">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingCleanliness">Cleanliness</label>
+            <select id="ratingCleanliness" formControlName="ratingCleanliness">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingDependability">Dependability</label>
+            <select id="ratingDependability" formControlName="ratingDependability">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingEnergyLevel">Energy Level</label>
+            <select id="ratingEnergyLevel" formControlName="ratingEnergyLevel">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingSafety">Safety consciousness and emergency skills</label>
+            <select id="ratingSafety" formControlName="ratingSafety">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingFlexibility">Flexibility</label>
+            <select id="ratingFlexibility" formControlName="ratingFlexibility">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingSuggestions">Following Suggestions</label>
+            <select id="ratingSuggestions" formControlName="ratingSuggestions">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingHealthy">Healthy Lifestyle</label>
+            <select id="ratingHealthy" formControlName="ratingHealthy">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingProfessionalism">Professionalism</label>
+            <select id="ratingProfessionalism" formControlName="ratingProfessionalism">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingTrustworthy">Trustworthy</label>
+            <select id="ratingTrustworthy" formControlName="ratingTrustworthy">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label class="required" for="ratingSelfConfidence">Self-Confidence</label>
+            <select id="ratingSelfConfidence" formControlName="ratingSelfConfidence">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+
+        <div class="form-row">
+            <label  for="ratingChildcare">General Childcare</label>
+            <select id="ratingChildcare" formControlName="ratingChildcare">
+                <option value="Excellent">Excellent</option>
+                <option value="Great">Great</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+            </select>
+        </div>
+
+        
+
+
+     
+        <div class="form-row">
+            <label class="required" for="Howleftjob">Please indicate how the Applicant left the job? </label>
+            <textarea id="Howleftjob" formControlName="Howleftjob" rows="3" placeholder="Your comments here..."></textarea>
+        </div>
+
+
+        <div class="form-row">
+            <label class="required" for="hireagain">Would you hire this Applicant again? </label>
+            <textarea id="hireagain" formControlName="hireagain" rows="3" placeholder="Your comments here..."></textarea>
+        </div>
+
+
+        <div class="form-row">
+            <label class="required" for="improvementAreas">Are there any areas where improvement is needed? If yes, please describe:
+            </label>
+            <textarea id="improvementAreas" formControlName="improvementAreas" rows="3" placeholder="Your comments here..."></textarea>
+        </div>
+
+
+        <div class="form-row">
+            <label class="required" for="recommend" class="required">Would you recommend the Applicant for a Nanny position?</label>
+            <select id="recommend" formControlName="recommend">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+
+        <div class="form-row">
+            <label class="required" for="strongSupport" class="required">Does the Applicant have a strong support system that you are aware of?</label>
+            <select id="strongSupport" formControlName="strongSupport">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+
+        <div class="form-row">
+            <label class="required" for="additionalComments">Are there any other additional comments or information you would like to share?</label>
+            <textarea id="additionalComments" formControlName="additionalComments" rows="3" placeholder="Your comments here..."></textarea>
+        </div>
+        <div class="form-row submit-row">
+            <button 
+                type="submit" 
+
+                class="submit-btn"
+            >
+                <span *ngIf="isLoading" class="spinner"></span>
+                <span *ngIf="!isLoading">Submit</span>
+            </button>
+        </div>
+
+        <div *ngIf="isFormInvalid" class="error-message">
+            ⚠️ Please fill in all required fields before submitting!
+        </div>
+        
+
+        
+
+    </form>
+</div>
+    
+</div>

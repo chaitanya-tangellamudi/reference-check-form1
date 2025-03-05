@@ -1,50 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = environment.apiBaseUrl;
-  private uploadUrl = environment.uploadUrl;
-  private companyID = environment.companyID;
-  private username = environment.username;
-  private password = environment.password;
+  private baseUrl = 'https://exelareweb.com/ExelareJobsAPI/api';
+  private uploadUrl = 'https://exelareweb.com/ExelareJobsAPI/api/addDocument';
+  private companyID = 'Exl_permtemplatedb';
+  private username = 'Admin';
+  private password = 'cbizadmin';
 
   constructor(private http: HttpClient) {}
 
-  // Fetch record data
-  getRecord(contid: string): Observable<any> {
+  getRecord(entityId: string, entityName: string): Observable<any> {
     const payload = {
       CompanyID: this.companyID,
       Username: this.username,
       Password: this.password,
-      EntityID: 'Contacts',
-      ItemIntID: contid
-    };
-    return this.http.post<any>(`${this.baseUrl}/viewrecord`, payload);
-  }
-  getRecord1(consid: string): Observable<any> {
-    const payload = {
-      CompanyID: this.companyID,
-      Username: this.username,
-      Password: this.password,
-      EntityID: 'Consultants',
-      ItemIntID: consid
+      EntityID: entityName,
+      ItemIntID: entityId
     };
     return this.http.post<any>(`${this.baseUrl}/viewrecord`, payload);
   }
 
-  // Upload PDF file
   uploadPdf(testId: string, additionalId: string, fileName: string, base64String: string): Observable<any> {
     const payload = {
-      CompanyID: this.companyID,
+      CompanyID: this.companyID, 
       Username: this.username,
       Password: this.password,
       ItemIntIDs: [testId, additionalId],
@@ -53,11 +37,11 @@ export class ApiService {
       SubType: ""
     };
     return this.http.post<any>(`${this.uploadUrl}`, payload).pipe(
-      retry(2), // 🔁 Retries the request 3 times
+      retry(2),
       catchError((error) => {
         console.error("❌ Error uploading PDF:", error);
         return throwError(() => new Error("Failed to upload PDF. Please try again later."));
       })
-    ); 
+    );
   }
 }

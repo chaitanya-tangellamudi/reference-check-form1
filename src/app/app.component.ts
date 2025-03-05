@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   isLoading = false;
   consid: string | null = null;
   contid: string | null = null;
+  companyID: string | null = null;
   name: string = '';
 
   relationshipOptions: string[] = [
@@ -99,33 +100,49 @@ export class AppComponent implements OnInit {
     this.referenceForm.patchValue({ relationship: selectedRelationships });
   }
 
-  ngOnInit() {
-    this.isLoading = true;
-    this.route.queryParams.subscribe(params => {
-      if (params['consid']) {
-        this.consid = params['consid'];
-        console.log("📌 Extracted testId from URL:", this.consid);
-      } else {
-        console.warn("⚠️ No testId found in the URL.");
-        this.consid = null;
-      }
+// app.component.ts
 
-      if (params['contid']) {
-        this.contid = params['contid'];
-        console.log("📌 Extracted additionalId from URL:", this.contid);
-      } else {
-        console.warn("⚠️ No additionalId found in the URL.");
-        this.contid = null;
-      }
+ngOnInit() {
+  this.isLoading = true;
+  this.route.queryParams.subscribe(params => {
+  
+    if (params['companyID']) {
+      this.companyID = params['companyID'];
+      console.log("📌 Extracted companyID from URL:", this.companyID);
+    
+    } else {
+      console.warn("⚠️ No companyID found in the URL.");
+      this.companyID = null;
+    }
 
-      if (this.consid) {
-        this.fetchAdditionalData(this.consid.toString())
-      }
-      if (this.contid) {
-        this.fetchData();
-      }
-    });
-  }
+    if (params['consid']) {
+      this.consid = params['consid'];
+      console.log("📌 Extracted testId (consid) from URL:", this.consid);
+    } else {
+      console.warn("⚠️ No testId (consid) found in the URL.");
+      this.consid = null;
+    }
+
+    if (params['contid']) {
+      this.contid = params['contid'];
+      console.log("📌 Extracted additionalId (contid) from URL:", this.contid);
+    } else {
+      console.warn("⚠️ No additionalId (contid) found in the URL.");
+      this.contid = null;
+    }
+
+    if (this.consid) {
+      this.fetchAdditionalData(this.consid.toString());
+    }
+    if (this.contid) {
+      this.fetchData();
+    }
+  });
+}
+
+
+
+  
 
 
   isSuccess = false;
@@ -145,7 +162,7 @@ export class AppComponent implements OnInit {
       this.isFormInvalid = true;
       setTimeout(() => {
         this.isFormInvalid = false;
-      }, 5000); // Hide warning after 5 seconds
+      }, 5000); 
     } else {
       this.isFormInvalid = false;
     }
@@ -156,62 +173,55 @@ showSuccessMessage() {
 
   setTimeout(() => {
     this.isSuccess = false;
-  }, 3000); // Hide message after 3 seconds
+  }, 3000); 
 }
 
 
 
 
-  fetchData() {
-    if (!this.contid) {
-      console.error("❌ Cannot fetch data. testId is missing!");
-      return;
-    }
+// app.component.ts
 
-    this.isLoading = true;
-    console.log(`🔄 Fetching data for testId: ${this.contid}`);
-
-    this.apiService.getRecord(this.contid).subscribe({
-      next: (response) => {
-        if (!response.IsError) {
-          const record = response.Record;
-          this.referenceForm.patchValue({
-            referenceName: record.DisplayName,
-            phone: record.MobilePhone,
-            email: record.EMail1
-          });
-         
-          console.log("✅ Prefilled data from API:", record);
-        } else {
-          console.error("❌ API Error:", response.ErrorMsg);
-        }
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error("❌ API request failed:", err);
-        this.isLoading = false;
-      }
-    });
-  }
-
-  // Second API Call - Fetch extra details
-fetchAdditionalData(testId: string) {
-  console.log(`🔄 Fetching additional data for testId: ${testId}`);
-
-  this.apiService.getRecord1(testId).subscribe({
+fetchRecordData(testId: string, entityName: string, onSuccess: (record: any) => void) {
+  console.log(`🔄 Fetching data for ${entityName} with testId: ${testId}`);
+  this.apiService.getRecord(testId, entityName).subscribe({
     next: (response) => {
       if (!response.IsError) {
-        this.name = response.Record.DisplayName;
-        console.log("✅ Name Prefilled from second API:", this.name);
+        onSuccess(response.Record);
+        console.log(`✅ Data from ${entityName} API:`, response.Record);
       } else {
-        console.error("❌ API Error in second API:", response.ErrorMsg);
+        console.error(`❌ API Error for ${entityName}:`, response.ErrorMsg);
       }
       this.isLoading = false;
     },
     error: (err) => {
-      console.error("❌ Second API request failed:", err);
+      console.error(`❌ API request failed for ${entityName}:`, err);
       this.isLoading = false;
     }
+  });
+}
+
+// Usage for fetching Contacts data
+fetchData() {
+  if (!this.contid) {
+    console.error("❌ Cannot fetch data. testId is missing!");
+    return;
+  }
+  
+  this.isLoading = true;
+  this.fetchRecordData(this.contid, 'Contacts', (record) => {
+    this.referenceForm.patchValue({
+      referenceName: record.DisplayName,
+      phone: record.MobilePhone,
+      email: record.EMail1
+    });
+  });
+}
+
+// Usage for fetching Consultants data
+fetchAdditionalData(testId: string) {
+  this.isLoading = true;
+  this.fetchRecordData(testId, 'Consultants', (record) => {
+    this.name = record.DisplayName;
   });
 }
 

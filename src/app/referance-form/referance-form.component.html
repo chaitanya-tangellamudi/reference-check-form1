@@ -1,37 +1,25 @@
 <app-taskbar></app-taskbar>
 
-<!doctype html>
-<html lang="en">
 <div class="whole-page">
     <div class="page-header">
         <h1>Reference Check</h1>
         <p>Reference for {{ name }}</p> 
     </div>
-    
-
     <div class="success-message" *ngIf="isSuccess">
         <div class="success-icon">✔</div>
         <div class="success-text">Form Submitted Successfully!</div>
       </div>
       <!-- Error Message -->
-<div class="message error-message" *ngIf="isError">
+    <div class="message error-message" *ngIf="isError">
     <div class="message-icon error-icon">✖</div>
     <div class="message-text">Form Submission Failed! Please try again.</div>
-  </div>
+    </div>
 
-  <div *ngIf="isLoading" class="loading-container">
+    <div *ngIf="isLoading" class="loading-container">
     <div class="spinner"></div>
     <p>Loading, please wait...</p>
-  </div>
+</div>
 
-  
-  
-    
-    
-      
-      
-
-   
 <div id="formContainer">
     <form  [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
         <div class="form-intro">
@@ -41,7 +29,6 @@
                 Please Complete and Submit on behalf of or Above &amp; Beyond Nanny Applicant
             </p>
         </div>
-
         <div class="form-row">
             <label for="referenceName" class="required">Reference Name</label>
             <input id="referenceName" type="text" formControlName="referenceName" placeholder="Please provide your first and last name" />
@@ -58,7 +45,6 @@
             <label for="email" class="required">Email</label>
             <input id="email" type="email" formControlName="email" placeholder="Please provide your email address" />
         </div>
-
         <div class="form-row">
             <label for="emailUpdates">Check here to receive email updates</label>
 
@@ -74,12 +60,6 @@
             <input id="nannyApplicantName" type="text" formControlName="nannyApplicantName" placeholder="Please provide the name of the Nanny Applicant" />
            
         </div>
-            
-
-
-
-
-
         <div class="form-row">
             <label class="required">Relationship to Applicant</label>
             <div class="cportal-jobgrid">
@@ -109,19 +89,10 @@
                 </label>
             </div>
         </div>
-        
-
-
-
-
-
-
         <div class="form-row">
             <label for="knownDuration">How long have you known this candidate?</label>
             <input id="knownDuration" type="text" formControlName="knownDuration" placeholder="e.g., 2 years, 6 months, etc." />
         </div>
-
-
         <h3>Please rate the applicant on Timeliness:</h3>
         <div class="form-row">
             <label class="required" for="ratingTimeliness">Timeliness</label>
@@ -132,9 +103,6 @@
                 <option value="Poor">Poor</option>
             </select>
         </div>
-
-
-
         <div class="form-row">
             <label class="required" for="ratingAttitude">Attitude</label>
             <select id="ratingAttitude" formControlName="ratingAttitude">
@@ -143,11 +111,7 @@
                 <option value="Average">Average</option>
                 <option value="Poor">Poor</option>
             </select>
-
-
         </div>
-
-
         <div class="form-row">
             <label class="required" for="ratingCommonSense">Common Sense</label>
             <select id="ratingCommonSense" formControlName="ratingCommonSense">
@@ -157,7 +121,6 @@
                 <option value="Poor">Poor</option>
             </select>
         </div>
-
         <div class="form-row">
             <label class="required" for="ratingCreativity">Creativity</label>
             <select id="ratingCreativity" formControlName="ratingCreativity">
@@ -287,8 +250,6 @@
                 <option value="Poor">Poor</option>
             </select>
         </div>
-
-
         <div class="form-row">
             <label  for="ratingChildcare">General Childcare</label>
             <select id="ratingChildcare" formControlName="ratingChildcare">
@@ -298,30 +259,19 @@
                 <option value="Poor">Poor</option>
             </select>
         </div>
-
-        
-
-
-     
         <div class="form-row">
             <label class="required" for="Howleftjob">Please indicate how the Applicant left the job? </label>
             <textarea id="Howleftjob" formControlName="Howleftjob" rows="3" placeholder="Your comments here..."></textarea>
         </div>
-
-
         <div class="form-row">
             <label class="required" for="hireagain">Would you hire this Applicant again? </label>
             <textarea id="hireagain" formControlName="hireagain" rows="3" placeholder="Your comments here..."></textarea>
         </div>
-
-
         <div class="form-row">
             <label class="required" for="improvementAreas">Are there any areas where improvement is needed? If yes, please describe:
             </label>
             <textarea id="improvementAreas" formControlName="improvementAreas" rows="3" placeholder="Your comments here..."></textarea>
         </div>
-
-
         <div class="form-row">
             <label class="required" for="recommend" class="required">Would you recommend the Applicant for a Nanny position?</label>
             <select id="recommend" formControlName="recommend">
@@ -330,8 +280,6 @@
                 <option value="No">No</option>
             </select>
         </div>
-
-
         <div class="form-row">
             <label class="required" for="strongSupport" class="required">Does the Applicant have a strong support system that you are aware of?</label>
             <select id="strongSupport" formControlName="strongSupport">
@@ -340,8 +288,6 @@
                 <option value="No">No</option>
             </select>
         </div>
-
-
         <div class="form-row">
             <label class="required" for="additionalComments">Are there any other additional comments or information you would like to share?</label>
             <textarea id="additionalComments" formControlName="additionalComments" rows="3" placeholder="Your comments here..."></textarea>
@@ -356,15 +302,10 @@
                 <span *ngIf="!isLoading">Submit</span>
             </button>
         </div>
-
         <div *ngIf="isFormInvalid" class="error-message">
             ⚠️ Please fill in all required fields before submitting!
         </div>
-        
-
-        
-
     </form>
 </div>
     
-</div>
+

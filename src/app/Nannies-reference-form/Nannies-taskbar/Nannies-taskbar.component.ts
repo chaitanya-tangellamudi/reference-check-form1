@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-taskbar',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './taskbar.component.html',
-  styleUrls: ['./taskbar.component.css']
+  templateUrl: './Nannies-taskbar.component.html',
+  styleUrls: ['./Nannies-taskbar.component.css']
 })
 export class TaskbarComponent {
  

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TaskbarComponent } from './taskbar.component';
+import { TaskbarComponent } from '../Nannies-taskbar/Nannies-taskbar.component';
 
 describe('TaskbarComponent', () => {
   let component: TaskbarComponent;

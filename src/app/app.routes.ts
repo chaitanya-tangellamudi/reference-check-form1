@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ReferanceFormComponent } from './referance-form/referance-form.component';
+import { ReferanceFormComponent } from './Nannies-reference-form/Nannies-reference-form.component';
 
 export const routes: Routes = [
     {

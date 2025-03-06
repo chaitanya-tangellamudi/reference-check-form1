@@ -17,7 +17,7 @@ describe('AppComponent', () => {
   it(`should have the 'reference-check-form' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('reference-check-form');
+    expect(app.title).toEqual('Nannies Reference Form');
   });
 
   it('should render title', () => {

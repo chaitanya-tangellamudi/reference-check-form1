@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReferanceFormComponent } from './referance-form.component';
+import { ReferanceFormComponent } from './Nannies-reference-form.component';
 
 describe('ReferanceFormComponent', () => {
   let component: ReferanceFormComponent;

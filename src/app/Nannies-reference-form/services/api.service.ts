@@ -9,15 +9,30 @@ import { catchError, retry } from 'rxjs/operators';
 export class ApiService {
   private baseUrl = 'https://exelareweb.com/ExelareJobsAPI/api';
   private uploadUrl = 'https://exelareweb.com/ExelareJobsAPI/api/addDocument';
-  private companyID = 'Exl_permtemplatedb';
+  private companyID!: string;
   private username = 'Admin';
   private password = 'cbizadmin';
 
   constructor(private http: HttpClient) {}
 
-  getRecord(entityId: string, entityName: string): Observable<any> {
+  // Set CompanyID dynamically
+  setCompanyID(companyID: string) {
+    this.companyID = companyID;
+  }
+
+  // Get CompanyID with validation
+  getCompanyID(): string {
+    if (!this.companyID) {
+      console.error("❌ CompanyID is missing! API call aborted.");
+      throw new Error("CompanyID is required");
+    }
+    return this.companyID;
+  }
+
+  // Fetch record details
+  getRecord(companyID: string, entityId: string, entityName: string): Observable<any> {
     const payload = {
-      CompanyID: this.companyID,
+      CompanyID: companyID, // Pass companyID dynamically
       Username: this.username,
       Password: this.password,
       EntityID: entityName,
@@ -26,9 +41,15 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}/viewrecord`, payload);
   }
 
-  uploadPdf(testId: string, additionalId: string, fileName: string, base64String: string): Observable<any> {
+  // Upload PDF
+  uploadPdf(companyID: string, testId: string, additionalId: string, fileName: string, base64String: string): Observable<any> {
+    if (!companyID) {
+      console.error("❌ CompanyID is missing! Upload aborted.");
+      return throwError(() => new Error("CompanyID is required"));
+    }
+
     const payload = {
-      CompanyID: this.companyID, 
+      CompanyID: companyID, // Pass dynamically instead of using instance variable
       Username: this.username,
       Password: this.password,
       ItemIntIDs: [testId, additionalId],
@@ -36,6 +57,7 @@ export class ApiService {
       DocContent: base64String,
       SubType: ""
     };
+
     return this.http.post<any>(`${this.uploadUrl}`, payload).pipe(
       retry(2),
       catchError((error) => {

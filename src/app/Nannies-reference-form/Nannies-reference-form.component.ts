@@ -7,9 +7,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../services/api.service';
-import { PdfService } from '../services/pdf.service';
-import { TaskbarComponent } from '../taskbar/taskbar.component';
+import { ApiService } from './services/api.service';
+import { PdfService } from './services/pdf.service';
+import { TaskbarComponent } from './Nannies-taskbar/Nannies-taskbar.component';
 
 @Component({
   selector: 'app-referance-form',
@@ -25,8 +25,8 @@ import { TaskbarComponent } from '../taskbar/taskbar.component';
 
 
   ],
-  templateUrl: './referance-form.component.html',
-  styleUrl: './referance-form.component.css'
+  templateUrl: './Nannies-reference-form.component.html',
+  styleUrl: './Nannies-reference-form.component.css'
 })
 export class ReferanceFormComponent implements OnInit {
   referenceForm: FormGroup;
@@ -179,9 +179,10 @@ showSuccessMessage() {
 
 // app.component.ts
 
-fetchRecordData(testId: string, entityName: string, onSuccess: (record: any) => void) {
-  console.log(`🔄 Fetching data for ${entityName} with testId: ${testId}`);
-  this.apiService.getRecord(testId, entityName).subscribe({
+fetchRecordData(companyID: string, testId: string, entityName: string, onSuccess: (record: any) => void) {
+  console.log(`🔄 Fetching data for ${entityName} with testId: ${testId} and companyID: ${companyID}`);
+  
+  this.apiService.getRecord(companyID, testId, entityName).subscribe({
     next: (response) => {
       if (!response.IsError) {
         onSuccess(response.Record);
@@ -200,13 +201,18 @@ fetchRecordData(testId: string, entityName: string, onSuccess: (record: any) => 
 
 // Usage for fetching Contacts data
 fetchData() {
+  if (!this.companyID) {
+    console.error("❌ Cannot fetch data. companyID is missing!");
+    return;
+  }
+
   if (!this.contid) {
     console.error("❌ Cannot fetch data. testId is missing!");
     return;
   }
-  
+
   this.isLoading = true;
-  this.fetchRecordData(this.contid, 'Contacts', (record) => {
+  this.fetchRecordData(this.companyID, this.contid, 'Contacts', (record) => {
     this.referenceForm.patchValue({
       referenceName: record.DisplayName,
       phone: record.MobilePhone,
@@ -217,11 +223,17 @@ fetchData() {
 
 // Usage for fetching Consultants data
 fetchAdditionalData(testId: string) {
+  if (!this.companyID) {
+    console.error("❌ Cannot fetch additional data. companyID is missing!");
+    return;
+  }
+
   this.isLoading = true;
-  this.fetchRecordData(testId, 'Consultants', (record) => {
+  this.fetchRecordData(this.companyID, testId, 'Consultants', (record) => {
     this.name = record.DisplayName;
   });
 }
+
 
 
 
@@ -286,6 +298,7 @@ fetchAdditionalData(testId: string) {
   
       // Upload PDF using API service
       this.apiService.uploadPdf(
+        this.companyID ?? '',  
         this.consid,
         this.contid ?? '',
         `${this.referenceForm.value.referenceName?.trim() || 'reference'}.pdf`,
@@ -295,7 +308,7 @@ fetchAdditionalData(testId: string) {
           this.isLoading = false;
           if (response && !response.IsError) {
             console.log("✅ PDF uploaded successfully!", response);
-            this.showSuccessMessage(); // 🎉 Show success message
+            this.showSuccessMessage();
           } else {
             console.error("❌ API Error:", response?.ErrorMsg || "Unknown error");
           }

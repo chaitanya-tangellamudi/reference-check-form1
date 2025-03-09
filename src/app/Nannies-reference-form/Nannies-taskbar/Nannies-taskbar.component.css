@@ -1,6 +1,6 @@
 
 
-.taskbar[_ngcontent-ng-c603788666] {
+.taskbar {
   background-color: #515d69;
   border-bottom: 2px solid #ddd;
   display: flex;
@@ -11,20 +11,22 @@
   top: 0;
   z-index: 999;
 }
-.logo[_ngcontent-ng-c603788666] {
+.logo {
   height: 78px;
 }
-.taskbar-icons[_ngcontent-ng-c603788666]   a[_ngcontent-ng-c603788666] {
+.taskbar-icons   a {
   display: inline-block;
   margin-left: 1.5rem;
   text-decoration: none;
+
 }
-.taskbar-icons[_ngcontent-ng-c603788666]   img[_ngcontent-ng-c603788666] {
+.taskbar-icons   img {
   height: 24px;
   width: 24px;
+  padding : 8px;
   object-fit: contain;
 }
-.taskbar-icons[_ngcontent-ng-c603788666]   img[_ngcontent-ng-c603788666]:hover {
+.taskbar-icons   img:hover {
   opacity: 0.8;
   transition: opacity 0.2s ease;
 }

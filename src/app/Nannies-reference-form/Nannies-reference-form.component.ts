@@ -100,7 +100,7 @@ export class ReferanceFormComponent implements OnInit {
     this.referenceForm.patchValue({ relationship: selectedRelationships });
   }
 
-// app.component.ts
+
 
 ngOnInit() {
   this.isLoading = true;
@@ -177,7 +177,7 @@ showSuccessMessage() {
 
 
 
-// app.component.ts
+
 
 fetchRecordData(companyID: string, testId: string, entityName: string, onSuccess: (record: any) => void) {
   console.log(`🔄 Fetching data for ${entityName} with testId: ${testId} and companyID: ${companyID}`);
@@ -199,7 +199,6 @@ fetchRecordData(companyID: string, testId: string, entityName: string, onSuccess
   });
 }
 
-// Usage for fetching Contacts data
 fetchData() {
   if (!this.companyID) {
     console.error("❌ Cannot fetch data. companyID is missing!");
@@ -221,7 +220,7 @@ fetchData() {
   });
 }
 
-// Usage for fetching Consultants data
+
 fetchAdditionalData(testId: string) {
   if (!this.companyID) {
     console.error("❌ Cannot fetch additional data. companyID is missing!");
@@ -276,14 +275,14 @@ fetchAdditionalData(testId: string) {
   
     this.isLoading = true;
     
-    // Hide submit button
+   
     const submitButton = document.querySelector('.submit-btn') as HTMLElement;
     if (submitButton) submitButton.style.display = 'none';
 
     this.validateFormBeforeSubmit(); 
   
     try {
-      // Generate PDF using PdfService
+     
       const pdfBytes = await this.pdfService.generatePdf(formElement);
   
       if (!pdfBytes) {
@@ -296,7 +295,6 @@ fetchAdditionalData(testId: string) {
         throw new Error("Missing testId! PDF upload skipped.");
       }
   
-      // Upload PDF using API service
       this.apiService.uploadPdf(
         this.companyID ?? '',  
         this.consid,
@@ -325,7 +323,7 @@ fetchAdditionalData(testId: string) {
       console.error("❌ Error:", error);
       this.showErrorMessage();
     } finally {
-      // Show submit button again
+     
       if (submitButton) submitButton.style.display = 'block';
     }
   }

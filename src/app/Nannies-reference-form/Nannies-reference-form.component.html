@@ -9,7 +9,7 @@
         <div class="success-icon">✔</div>
         <div class="success-text">Form Submitted Successfully!</div>
       </div>
-      <!-- Error Message -->
+ 
     <div class="message error-message" *ngIf="isError">
     <div class="message-icon error-icon">✖</div>
     <div class="message-text">Form Submission Failed! Please try again.</div>
@@ -18,9 +18,9 @@
     <div *ngIf="isLoading" class="loading-container">
     <div class="spinner"></div>
     <p>Loading, please wait...</p>
-</div>
+    </div>
 
-<div id="formContainer">
+    <div id="formContainer">
     <form  [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
         <div class="form-intro">
             <h2>Reference Form</h2>

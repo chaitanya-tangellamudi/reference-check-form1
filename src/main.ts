@@ -5,9 +5,9 @@ import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
-  ...appConfig, // Keep your existing config
+  ...appConfig, 
   providers: [
-    ...appConfig.providers || [], // Ensure other providers are retained
-    importProvidersFrom(HttpClientModule) // ✅ Add HttpClientModule
+    ...appConfig.providers || [], 
+    importProvidersFrom(HttpClientModule) 
   ]
 }).catch((err) => console.error(err));

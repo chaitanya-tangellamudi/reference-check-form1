@@ -23,11 +23,11 @@
     position: absolute;
     /* left: 20px; */
     right: 460px;
-    top: 78%; /* Moves it below the form-row */
+    top: 78%; 
   }
   
   
-  /* Common Styling for Messages */
+ 
   .message {
     position: fixed;
     top: 20%;

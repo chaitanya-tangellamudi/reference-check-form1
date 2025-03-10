@@ -1,13 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+
 
 html,body {
      margin: 0; 
-    /* font-family: "'Nunito', sans-serif"; */
+  
     letter-spacing: 0px !important;
     font-size: 20px;
     font-weight: 400;
     letter-spacing: 0.015em;
-    background-image: url('https://aboveandbeyondnannies.com/wp-content/uploads/2024/01/Canva-Wallpaper-Arrows-Manual-Opacity.jpg'); 
+    background-image: url('assets/images/background_nanny.jpg'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
